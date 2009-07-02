@@ -5,7 +5,7 @@ use base 'Data::Model';
 use Data::Model::Schema;
 
 base_driver $main::DRIVER;
-install_model user => schema {
+install_model tusr => schema {
     key 'id';
     index 'name';
 
@@ -17,7 +17,7 @@ install_model user => schema {
     };
 };
 
-install_model user2 => schema {
+install_model tusr2 => schema {
     key 'name';
 
     columns qw/ name nickname /;
@@ -27,7 +27,7 @@ install_model user2 => schema {
     };
 };
 
-install_model user3 => schema {
+install_model tusr3 => schema {
     key 'name';
 
     columns qw/ name nickname /;

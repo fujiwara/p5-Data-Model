@@ -13,7 +13,7 @@ plan tests => 52;
 my $dsn = $ENV{Q4M_DSN} || 'dbi:mysql:database=test';
 my $driver = Data::Model::Driver::Queue::Q4M->new(
     dsn      => $dsn,
-    username => '',
+    tusrname => '',
     password => '',
     timeout  => 2, # quickly
 );

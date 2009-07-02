@@ -4,7 +4,7 @@ use Data::Model::Driver::DBI;
 my $dsn = 'dbi:SQLite:dbname=' . temp_filename;;
 my $driver = Data::Model::Driver::DBI->new(
     dsn => $dsn,
-    username => '',
+    tusrname => '',
     password => '',
 );
 my $model = MyModel->new;

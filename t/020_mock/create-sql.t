@@ -7,7 +7,7 @@ BEGIN {
     my $dbfile = temp_filename;
     our $DRIVER = Data::Model::Driver::DBI->new(
         dsn => 'dbi:SQLite:dbname=' . $dbfile,
-        username => 'username',
+        tusrname => 'tusrname',
         password => 'password',
     );
     use_ok('Mock::Basic');
@@ -20,9 +20,9 @@ BEGIN {
 
 my $mock = Mock::Basic->new;
 
-my @user = $mock->get_schema('user')->sql->as_sql;
-is scalar(@user), 1;
-is($user[0], "CREATE TABLE user (
+my @tusr = $mock->get_schema('tusr')->sql->as_sql;
+is scalar(@tusr), 1;
+is($tusr[0], "CREATE TABLE tusr (
     id              CHAR(255)      ,
     name            CHAR(255)      ,
     PRIMARY KEY (id)
@@ -36,14 +36,14 @@ is($bookmark[0], "CREATE TABLE bookmark (
     UNIQUE (url)
 )");
 
-my @bookmark_user = $mock->get_schema('bookmark_user')->sql->as_sql;
-is scalar(@bookmark_user), 2;
-is($bookmark_user[0], "CREATE TABLE bookmark_user (
+my @bookmark_tusr = $mock->get_schema('bookmark_tusr')->sql->as_sql;
+is scalar(@bookmark_tusr), 2;
+is($bookmark_tusr[0], "CREATE TABLE bookmark_tusr (
     bookmark_id     CHAR(100)      ,
-    user_id         CHAR(100)      ,
-    PRIMARY KEY (bookmark_id, user_id)
+    tusr_id         CHAR(100)      ,
+    PRIMARY KEY (bookmark_id, tusr_id)
 )");
-is($bookmark_user[1], "CREATE INDEX user_id ON bookmark_user (user_id)");
+is($bookmark_tusr[1], "CREATE INDEX tusr_id ON bookmark_tusr (tusr_id)");
 
 
 

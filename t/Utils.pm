@@ -120,7 +120,7 @@ sub setup_test {
         $main::DRIVER = _make_driver_instance(
             $driver,
             dsn => $dsn,
-            username => $config->{username} || '',
+            tusrname => $config->{tusrname} || '',
             password => $config->{password} || '',
             %{ $config->{driver_config} },
         );

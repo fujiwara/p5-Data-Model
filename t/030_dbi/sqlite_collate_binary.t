@@ -10,7 +10,7 @@ use Data::Model::Driver::DBI;
     use base 'Data::Model';
     use Data::Model::Schema;
 
-    install_model user => schema {
+    install_model tusr => schema {
         key 'foo';
 
         column 'foo' => varchar => {
@@ -34,13 +34,13 @@ for my $target ($dm->schema_names) {
 ok 1;
 
 my $ret;
-ok($dm->set( user => 'foo' ), 'set user foo');
-ok($dm->set( user => 'Foo' ), 'set user Foo');
+ok($dm->set( tusr => 'foo' ), 'set tusr foo');
+ok($dm->set( tusr => 'Foo' ), 'set tusr Foo');
 
-($ret) = $dm->get( user => 'foo' );
-is($ret->foo, 'foo', 'get user foo');
-($ret) = $dm->get( user => 'Foo' );
-is($ret->foo, 'Foo', 'get user Foo');
+($ret) = $dm->get( tusr => 'foo' );
+is($ret->foo, 'foo', 'get tusr foo');
+($ret) = $dm->get( tusr => 'Foo' );
+is($ret->foo, 'Foo', 'get tusr Foo');
 
-($ret) = $dm->get( user => 'FOO' );
-ok(!$ret, 'FOO is not found in user');
+($ret) = $dm->get( tusr => 'FOO' );
+ok(!$ret, 'FOO is not found in tusr');

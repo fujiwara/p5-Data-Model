@@ -5,25 +5,25 @@ use Mock::Logic::Simple;
 my $mock = Mock::Logic::Simple->new;
 
 do {
-    my($ret1) = $mock->get( user => 'yappo' );
-    ok(Mock::Logic::Simple::user->can('id'));
-    isa_ok $ret1, 'Mock::Logic::Simple::user';
+    my($ret1) = $mock->get( tusr => 'yappo' );
+    ok(Mock::Logic::Simple::tusr->can('id'));
+    isa_ok $ret1, 'Mock::Logic::Simple::tusr';
     is $ret1->name, 'Osawa';
     
-    my($ret2) = $mock->get( user => 'lopnor' );
-    isa_ok $ret2, 'Mock::Logic::Simple::user';
+    my($ret2) = $mock->get( tusr => 'lopnor' );
+    isa_ok $ret2, 'Mock::Logic::Simple::tusr';
     is $ret2->name, 'Danjou';
     
-    my $ret3 = $mock->set( user => +{
+    my $ret3 = $mock->set( tusr => +{
         id   => 'soozy',
         name => 'Souji',
     });
-    isa_ok $ret3, 'Mock::Logic::Simple::user';
+    isa_ok $ret3, 'Mock::Logic::Simple::tusr';
     is $ret3->id, 'soozy';
     is $ret3->name, 'Souji';
     
-    ok $mock->delete( user => 'ok' );
-    ok !$mock->delete( user => 'ng' );
+    ok $mock->delete( tusr => 'ok' );
+    ok !$mock->delete( tusr => 'ng' );
 };
 
 do {

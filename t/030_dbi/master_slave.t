@@ -6,12 +6,12 @@ my $slave_dsn  = 'dbi:SQLite:dbname=' . temp_filename;
 my $driver = Data::Model::Driver::DBI::MasterSlave->new(
     master => {
         dsn => $master_dsn,
-        username => '',
+        tusrname => '',
         password => '',
     },
     slave  => {
         dsn => $slave_dsn,
-        username => '',
+        tusrname => '',
         password => '',
     },
 );
@@ -34,7 +34,7 @@ my $driver = Data::Model::Driver::DBI::MasterSlave->new(
             };
     };
 
-    install_model user => schema {
+    install_model tusr => schema {
         key 'name';
 
         columns qw/ name nickname /;
@@ -111,21 +111,21 @@ my $model = MyModel->new;
 
 
         $scope = $model->txn_scope;
-        $scope->set( user => { name => 'osawa', nickname => 'yappo' } );
-        my($get) = $scope->get( user => 'osawa' );
+        $scope->set( tusr => { name => 'osawa', nickname => 'yappo' } );
+        my($get) = $scope->get( tusr => 'osawa' );
         is($get->nickname, 'yappo', 'get from rw_handle');
         $scope->commit;
         isnt($model->get_base_driver->rw_handle, $model->get_base_driver->r_handle, 'rw_handle != r_handle');
 
-        ($get) = $model->get( user => 'osawa' );
+        ($get) = $model->get( tusr => 'osawa' );
         ok(!$get, 'get from r_handle');
 
         $scope = $model->txn_scope;
-        ($get) = $scope->get( user => 'osawa' );
+        ($get) = $scope->get( tusr => 'osawa' );
         is($get->nickname, 'yappo', 'get from rw_handle');
         $scope->rollback;
 
-        ($get) = $model->get( user => 'osawa' );
+        ($get) = $model->get( tusr => 'osawa' );
         ok(!$get, 'get from r_handle');
     }
 }

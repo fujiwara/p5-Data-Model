@@ -7,7 +7,7 @@ use Data::Model::Driver::Memory;
 
 base_driver(Data::Model::Driver::Memory->new);
 
-install_model user => schema {
+install_model tusr => schema {
     key 'id';
     columns qw/id name/;
 };
@@ -24,10 +24,10 @@ install_model bookmark => schema {
     column 'url';
 };
 
-install_model bookmark_user => schema {
-    my $columns = [qw/ bookmark_id user_id /];
+install_model bookmark_tusr => schema {
+    my $columns = [qw/ bookmark_id tusr_id /];
     key $columns;
-    index 'user_id';
+    index 'tusr_id';
 
     columns @{ $columns };
 };

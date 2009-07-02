@@ -10,20 +10,20 @@ sub t_01_begin_commit : Tests(11) {
     my $txn = mock->txn_scope;
     isa_ok($txn, 'Data::Model::Transaction');
 
-    my $set = $txn->set( user => { name => 'osawa', nickname => 'yappo' } );
+    my $set = $txn->set( tusr => { name => 'osawa', nickname => 'yappo' } );
     do {
-        my @get = $txn->get( user => { index => { name => 'osawa' } } );
+        my @get = $txn->get( tusr => { index => { name => 'osawa' } } );
         is(scalar(@get), 1, 'get 1 record');
-        ok($get[0], 'get user table id = 1');
+        ok($get[0], 'get tusr table id = 1');
         is($get[0]->name, 'osawa', 'name is osawa');
         is($get[0]->nickname, 'yappo', 'nickname is yappo');
     };
 
     ok($txn->commit, 'commit');
 
-    my @get = mock->get( user => { index => { name => 'osawa' } } );
+    my @get = mock->get( tusr => { index => { name => 'osawa' } } );
     is(scalar(@get), 1, 'get 1 record');
-    ok($get[0], 'get user table id = 1');
+    ok($get[0], 'get tusr table id = 1');
     is($get[0]->name, 'osawa', 'name is osawa');
     is($get[0]->nickname, 'yappo', 'nickname is yappo');
     ok($get[0]->delete, 'delete record');
@@ -33,19 +33,19 @@ sub t_02_begin_rollback : Tests(7) {
     my $txn = mock->txn_scope;
     isa_ok($txn, 'Data::Model::Transaction');
 
-    my $set = $txn->set( user => { name => 'osawa', nickname => 'yappo' } );
+    my $set = $txn->set( tusr => { name => 'osawa', nickname => 'yappo' } );
     do {
-        my @get = $txn->get( user => { index => { name => 'osawa' } } );
+        my @get = $txn->get( tusr => { index => { name => 'osawa' } } );
         is(scalar(@get), 1, 'get 1 record');
-        ok($get[0], 'get user table id = 2');
+        ok($get[0], 'get tusr table id = 2');
         is($get[0]->name, 'osawa', 'name is osawa');
         is($get[0]->nickname, 'yappo', 'nickname is yappo');
     };
 
     ok($txn->rollback, 'commit');
 
-    my @get = mock->get( 'user' );
-    is(scalar(@get), 0, 'user table record is not found');
+    my @get = mock->get( 'tusr' );
+    is(scalar(@get), 0, 'tusr table record is not found');
 }
 
 sub t_03_begin_destroy : Tests(5) {
@@ -53,97 +53,97 @@ sub t_03_begin_destroy : Tests(5) {
         my $txn = mock->txn_scope;
         isa_ok($txn, 'Data::Model::Transaction');
 
-        my $set = $txn->set( user => { name => 'osawa', nickname => 'yappo' } );
+        my $set = $txn->set( tusr => { name => 'osawa', nickname => 'yappo' } );
         do {
-            my($get) = $txn->get( user => { index => { name => 'osawa' } } );
-            ok($get, 'get user table');
+            my($get) = $txn->get( tusr => { index => { name => 'osawa' } } );
+            ok($get, 'get tusr table');
             is($get->name, 'osawa', 'name is osawa');
             is($get->nickname, 'yappo', 'nickname is yappo');
         };
     };
 
-    my @get = mock->get( 'user' );
-    is(scalar(@get), 0, 'user table record is not found');
+    my @get = mock->get( 'tusr' );
+    is(scalar(@get), 0, 'tusr table record is not found');
 }
 
 sub t_11_set_update_rollback : Tests(4) {
-    mock->set( user2 => { name => 'osawa', nickname => 'yappo' } );
+    mock->set( tusr2 => { name => 'osawa', nickname => 'yappo' } );
 
     do {
         my $txn = mock->txn_scope;
-        my($get) = $txn->lookup( user2 => 'osawa' );
-        ok($get, 'get user2 table');
+        my($get) = $txn->lookup( tusr2 => 'osawa' );
+        ok($get, 'get tusr2 table');
         $get->nickname('yappo2');
         $txn->update($get);
 
-        my($get2) = $txn->lookup( user2 => 'osawa' );
+        my($get2) = $txn->lookup( tusr2 => 'osawa' );
         is($get2->nickname, 'yappo2', 'nickname is yappo2');
 
         $txn->rollback;
     };
 
-    my($get) = mock->lookup( user2 => 'osawa' );
+    my($get) = mock->lookup( tusr2 => 'osawa' );
     is($get->nickname, 'yappo', 'nickname is yappo');
     ok($get->delete, 'delete record');
 }
 
 sub t_12_set_update_commit : Tests(4) {
-    mock->set( user2 => { name => 'osawa', nickname => 'yappo' } );
+    mock->set( tusr2 => { name => 'osawa', nickname => 'yappo' } );
 
     do {
         my $txn = mock->txn_scope;
-        my($get) = $txn->lookup( user2 => 'osawa' );
-        ok($get, 'get user2 table');
+        my($get) = $txn->lookup( tusr2 => 'osawa' );
+        ok($get, 'get tusr2 table');
         $get->nickname('yappo2');
         $txn->update($get);
 
-        my($get2) = $txn->lookup( user2 => 'osawa' );
+        my($get2) = $txn->lookup( tusr2 => 'osawa' );
         is($get2->nickname, 'yappo2', 'nickname is yappo2');
 
         $txn->commit;
     };
 
-    my($get) = mock->lookup( user2 => 'osawa' );
+    my($get) = mock->lookup( tusr2 => 'osawa' );
     is($get->nickname, 'yappo2', 'nickname is yappo2');
     ok($get->delete, 'delete record');
 }
 
 sub t_13_set_delete_rollback : Tests(4) {
-    mock->set( user2 => { name => 'osawa', nickname => 'yappo' } );
+    mock->set( tusr2 => { name => 'osawa', nickname => 'yappo' } );
 
     do {
         my $txn = mock->txn_scope;
-        my($get) = $txn->lookup( user2 => 'osawa' );
-        ok($get, 'get user2 table');
+        my($get) = $txn->lookup( tusr2 => 'osawa' );
+        ok($get, 'get tusr2 table');
         $txn->delete($get);
 
-        my($get2) = $txn->lookup( user2 => 'osawa' );
+        my($get2) = $txn->lookup( tusr2 => 'osawa' );
         ok(!$get2, 'name = osawa is deleted');
 
         $txn->rollback;
     };
 
-    my($get) = mock->lookup( user2 => 'osawa' );
+    my($get) = mock->lookup( tusr2 => 'osawa' );
     is($get->nickname, 'yappo', 'nickname is yappo');
     ok($get->delete, 'delete record');
 }
 
 sub t_14_set_delete_commit : Tests(3) {
-    mock->set( user2 => { name => 'osawa', nickname => 'yappo' } );
+    mock->set( tusr2 => { name => 'osawa', nickname => 'yappo' } );
 
     do {
         my $txn = mock->txn_scope;
-        my($get) = $txn->lookup( user2 => 'osawa' );
-        ok($get, 'get user2 table');
+        my($get) = $txn->lookup( tusr2 => 'osawa' );
+        ok($get, 'get tusr2 table');
         $txn->delete($get);
 
-        my($get2) = $txn->lookup( user2 => 'osawa' );
+        my($get2) = $txn->lookup( tusr2 => 'osawa' );
         ok(!$get2, 'name = osawa is deleted');
 
         $txn->commit;
     };
 
-    my($get) = mock->lookup( user2 => 'osawa' );
+    my($get) = mock->lookup( tusr2 => 'osawa' );
     ok(!$get, 'name = osawa is deleted');
 }
 
@@ -160,11 +160,11 @@ sub _t_21_composite_for_cache {
 }
 
 sub t_21_composite_for_cache : Tests(20) {
-    mock->set( user2 => { name => 'osawa', nickname => 'yappo' } );
-    mock->set( user2 => { name => 'kazuhiro', nickname => 'kazu' } );
-    mock->set( user2 => { name => 'hideki', nickname => 'hide' } );
-    mock->set( user3 => { name => 'kan', nickname => 'cure' } );
-    mock->set( user3 => { name => 'neko', nickname => 'kaku' } );
+    mock->set( tusr2 => { name => 'osawa', nickname => 'yappo' } );
+    mock->set( tusr2 => { name => 'kazuhiro', nickname => 'kazu' } );
+    mock->set( tusr2 => { name => 'hideki', nickname => 'hide' } );
+    mock->set( tusr3 => { name => 'kan', nickname => 'cure' } );
+    mock->set( tusr3 => { name => 'neko', nickname => 'kaku' } );
 
     my $remove_multi_from_cache_keys;
     my $orig_remove_multi_from_cache = \&Data::Model::Driver::Cache::remove_multi_from_cache;
@@ -175,12 +175,12 @@ sub t_21_composite_for_cache : Tests(20) {
     };
 
     _t_21_composite_for_cache 0 => (
-        user2 => {
+        tusr2 => {
             osawa    => 'yappo',
             kazuhiro => 'kazu',
             hideki   => 'hide',
         },
-        user3 => {
+        tusr3 => {
             kan  => 'cure',
             neko => 'kaku',
         },
@@ -189,15 +189,15 @@ sub t_21_composite_for_cache : Tests(20) {
     $remove_multi_from_cache_keys = undef;
     do {
         my $txn = mock->txn_scope;
-        $txn->delete( user2 => 'osawa' );
-        $txn->update( user3 => 'kan', undef, { nickname => 'pre' } );
+        $txn->delete( tusr2 => 'osawa' );
+        $txn->update( tusr3 => 'kan', undef, { nickname => 'pre' } );
 
         _t_21_composite_for_cache $txn => (
-            user2 => {
+            tusr2 => {
                 kazuhiro => 'kazu',
                 hideki   => 'hide',
             },
-            user3 => {
+            tusr3 => {
                 kan  => 'pre',
                 neko => 'kaku',
             },
@@ -206,12 +206,12 @@ sub t_21_composite_for_cache : Tests(20) {
     ok(!$remove_multi_from_cache_keys, 'not delete cache');
 
     _t_21_composite_for_cache 0 => (
-        user2 => {
+        tusr2 => {
             osawa    => 'yappo',
             kazuhiro => 'kazu',
             hideki   => 'hide',
         },
-        user3 => {
+        tusr3 => {
             kan  => 'cure',
             neko => 'kaku',
         },
@@ -220,22 +220,22 @@ sub t_21_composite_for_cache : Tests(20) {
     $remove_multi_from_cache_keys = undef;
     do {
         my $txn = mock->txn_scope;
-        $txn->delete( user2 => 'osawa' );
-        $txn->update( user3 => 'kan', undef, { nickname => 'pre' } );
+        $txn->delete( tusr2 => 'osawa' );
+        $txn->update( tusr3 => 'kan', undef, { nickname => 'pre' } );
         $txn->commit;
     };
     if (mock->get_base_driver->isa('Data::Model::Driver::Cache')) {
-        is_deeply($remove_multi_from_cache_keys, [qw/ user2:osawa user3:kan /], 'deleted cache keys');
+        is_deeply($remove_multi_from_cache_keys, [qw/ tusr2:osawa tusr3:kan /], 'deleted cache keys');
     } else {
         ok(1, 'is dummy');
     }
 
     _t_21_composite_for_cache 0 => (
-        user2 => {
+        tusr2 => {
             kazuhiro => 'kazu',
             hideki   => 'hide',
         },
-        user3 => {
+        tusr3 => {
             kan  => 'pre',
             neko => 'kaku',
         },

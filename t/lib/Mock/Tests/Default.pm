@@ -63,7 +63,7 @@ sub t_04_get_undef_with_deflate : Tests(3) {
     ok(!$undef, 'get undef is empty');
 
     my $hash;
-    my $exists = mock->get( tbl8 => empty_hash->{user_id} );
+    my $exists = mock->get( tbl8 => empty_hash->{tusr_id} );
     ok(!$exists, 'get undef is empty');
 }
 

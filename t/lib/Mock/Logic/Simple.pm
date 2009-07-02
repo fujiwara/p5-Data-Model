@@ -7,13 +7,13 @@ use Data::Model::Driver::Logic;
 
 my $logic = Data::Model::Driver::Logic->new;
 
-install_model user => schema {
+install_model tusr => schema {
     driver $logic;
     key 'id';
     columns qw/id name/;
 };
 
-sub get_user {
+sub get_tusr {
     my($self, $schema, $key, $columns, %args) = @_;
     my $obj = +{ id => $key->[0] };
     $obj->{name} = 'Osawa' if $key->[0] eq 'yappo';
@@ -21,14 +21,14 @@ sub get_user {
     $obj;
 }
 
-sub set_user {
+sub set_tusr {
     my($self, $schema, $key, $columns, %args) = @_;
     $columns;
 }
 
-sub update_user {}
+sub update_tusr {}
 
-sub delete_user {
+sub delete_tusr {
     my($self, $schema, $key, $columns, %args) = @_;
     $key->[0] eq 'ok' ? 1 : 0;
 }
@@ -40,8 +40,8 @@ install_model barerow => schema {
     schema_options bare_row => 1;
 };
 
-sub get_barerow { get_user(@_) }
-sub set_barerow { set_user(@_) }
-sub delete_barerow { delete_user(@_) }
+sub get_barerow { get_tusr(@_) }
+sub set_barerow { set_tusr(@_) }
+sub delete_barerow { delete_tusr(@_) }
 
 1;

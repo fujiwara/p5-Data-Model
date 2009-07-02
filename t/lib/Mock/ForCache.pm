@@ -4,7 +4,7 @@ use warnings;
 use base 'Data::Model';
 use Data::Model::Schema;
 
-install_model user => schema {
+install_model tusr => schema {
     driver $main::DRIVER;
     key 'id';
     columns qw/id name/;

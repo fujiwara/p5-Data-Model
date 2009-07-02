@@ -24,9 +24,9 @@ BEGIN {
 
 my $mock = Mock::Basic->new;
 
-my @user = $mock->get_schema('user')->sql->as_sql;
-is scalar(@user), 1;
-is($user[0], "CREATE TABLE user (
+my @tusr = $mock->get_schema('tusr')->sql->as_sql;
+is scalar(@tusr), 1;
+is($tusr[0], "CREATE TABLE tusr (
     id              CHAR(255)      ,
     name            CHAR(255)      ,
     PRIMARY KEY (id)
@@ -41,13 +41,13 @@ is($bookmark[0], "CREATE TABLE bookmark (
     UNIQUE url (url)
 )");
 
-my @bookmark_user = $mock->get_schema('bookmark_user')->sql->as_sql;
-is scalar(@bookmark_user), 1;
-is($bookmark_user[0], "CREATE TABLE bookmark_user (
+my @bookmark_tusr = $mock->get_schema('bookmark_tusr')->sql->as_sql;
+is scalar(@bookmark_tusr), 1;
+is($bookmark_tusr[0], "CREATE TABLE bookmark_tusr (
     bookmark_id     CHAR(100)      ,
-    user_id         CHAR(100)      ,
-    PRIMARY KEY (bookmark_id, user_id),
-    INDEX user_id (user_id)
+    tusr_id         CHAR(100)      ,
+    PRIMARY KEY (bookmark_id, tusr_id),
+    INDEX tusr_id (tusr_id)
 )");
 
 

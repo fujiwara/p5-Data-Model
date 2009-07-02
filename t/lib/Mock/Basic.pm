@@ -4,7 +4,7 @@ use warnings;
 use base 'Data::Model';
 use Data::Model::Schema;
 
-install_model user => schema {
+install_model tusr => schema {
     driver $main::DRIVER;
     key 'id';
     columns qw/id name/;
@@ -23,16 +23,16 @@ install_model bookmark => schema {
     column 'url';
 };
 
-install_model bookmark_user => schema {
+install_model bookmark_tusr => schema {
     driver $main::DRIVER;
-    key [qw/ bookmark_id user_id /];
-    index 'user_id';
+    key [qw/ bookmark_id tusr_id /];
+    index 'tusr_id';
 
     column bookmark_id
         => char => {
             size => 100,
         };
-    column user_id
+    column tusr_id
         => char => {
             size => 100,
         };
