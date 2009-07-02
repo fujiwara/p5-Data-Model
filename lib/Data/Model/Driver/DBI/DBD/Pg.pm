@@ -3,7 +3,10 @@ use strict;
 use warnings;
 use base 'Data::Model::Driver::DBI::DBD';
 
+sub can_replace { }
+
 sub fetch_last_id {
+    my $self = shift;
     my ( undef, undef, $dbh, undef, $table ) = @_;
     $dbh->last_insert_id( undef, undef, $table, undef );
 }

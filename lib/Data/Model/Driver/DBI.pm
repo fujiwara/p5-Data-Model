@@ -258,7 +258,7 @@ sub _insert_or_replace {
         $self->end_query($sth);
 
         # set autoincrement key
-        $self->_set_auto_increment($schema, $columns, sub { $self->dbd->fetch_last_id( $schema, $columns, $dbh, $sth ) });
+        $self->_set_auto_increment($schema, $columns, sub { $self->dbd->fetch_last_id( $schema, $columns, $dbh, $sth, $table ) });
     };
     if ($@) {
         $self->_stack_trace($sth, $sql, \@column_list, $@);
