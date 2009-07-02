@@ -104,6 +104,12 @@ sub setup_test {
         eval "use DBD::mysql";
         plan skip_all => "DBD::mysql required for testing DBI mysql driver" if $@;
     }
+    elsif ($dsn =~ /Pg/) {
+        plan skip_all => "Set TEST_PG environment variable to run this test"
+            unless $ENV{TEST_PG};
+        eval "use DBD::Pg";
+        plan skip_all => "DBD::Pg required for testing DBI Pg driver" if $@;
+    }
 
     if ($dsn || $config->{driver} eq 'Memory') {
         if ($dsn =~ /sqlite/i) {
@@ -120,7 +126,7 @@ sub setup_test {
         );
         eval "use $mock"; $@ and die $@;
 
-        if ($dsn =~ /mysql/i) {
+        if ($dsn =~ /mysql|pg/i) {
             $CLEANUP_CODE = sub {
                 my $dbh = DBI->connect($dsn,
                                        '', '', { RaiseError => 1, PrintError => 0 });
@@ -130,7 +136,7 @@ sub setup_test {
             };
             $CLEANUP_CODE->();
         }
-        if ($dsn =~ /sqlite|mysql/i) {
+        if ($dsn =~ /sqlite|mysql|pg/i) {
             setup_schema( $dsn => $mock->as_sqls );
         }
     } elsif ($config->{driver} eq 'Memcached') {
