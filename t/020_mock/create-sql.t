@@ -39,8 +39,8 @@ is($bookmark[0], "CREATE TABLE bookmark (
 my @bookmark_tusr = $mock->get_schema('bookmark_tusr')->sql->as_sql;
 is scalar(@bookmark_tusr), 2;
 is($bookmark_tusr[0], "CREATE TABLE bookmark_tusr (
-    bookmark_id     CHAR(100)      ,
-    tusr_id         CHAR(100)      ,
+    bookmark_id     VARCHAR(100)   ,
+    tusr_id         VARCHAR(100)   ,
     PRIMARY KEY (bookmark_id, tusr_id)
 )");
 is($bookmark_tusr[1], "CREATE INDEX tusr_id ON bookmark_tusr (tusr_id)");

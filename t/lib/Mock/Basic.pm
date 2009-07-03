@@ -29,11 +29,11 @@ install_model bookmark_tusr => schema {
     index 'tusr_id';
 
     column bookmark_id
-        => char => {
+        => varchar => {
             size => 100,
         };
     column tusr_id
-        => char => {
+        => varchar => {
             size => 100,
         };
 };

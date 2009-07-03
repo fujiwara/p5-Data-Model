@@ -141,7 +141,7 @@ sub add_column {
 
     push @{ $self->{columns} }, $column;
     $self->{column}->{$column} = +{
-        type    => $type    || 'char',
+        type    => $type    || $self->default_column_type,
         options => $options || +{},
     };
 }
@@ -221,7 +221,7 @@ sub column_names {
 
 sub column_type {
     my($self, $column) = @_;
-    return 'char' unless $column && $self->{column}->{$column} && $self->{column}->{$column}->{type};
+    return $self->default_column_type unless $column && $self->{column}->{$column} && $self->{column}->{$column}->{type};
     $self->{column}->{$column}->{type};
 }
 sub column_options {
@@ -432,5 +432,6 @@ sub sql {
     $self->{sql} ||= Data::Model::Schema::SQL->new($self);
 }
 
+sub default_column_type { 'char' }
 
 1;
