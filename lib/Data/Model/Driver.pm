@@ -58,7 +58,9 @@ sub _set_auto_increment {
         for my $column (@keys) {
             if (exists $schema->column_options($column)->{auto_increment} && 
                     $schema->column_options($column)->{auto_increment}) {
-                $columns->{$column} = $code->();
+                $columns->{$column}
+                    = defined $columns->{$column} ? $columns->{$column}
+                                                  : $code->();
                 $count++;
             }
         }
