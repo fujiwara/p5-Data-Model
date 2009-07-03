@@ -377,6 +377,14 @@ sub set_default {
     my($self, $columns) = @_;
 
     while (my($name, $conf) = each %{ $self->{column} }) {
+        if ( exists $conf->{options}
+          && $conf->{options}->{auto_increment}
+          && !defined $columns->{$name}
+        ) {
+            # auto_increment で null の場合はカラム自体を消す
+            delete $columns->{$name};
+            next;
+        }
         next if exists $columns->{$name};
         next unless exists $conf->{options};
         next unless exists $conf->{options}->{default};
