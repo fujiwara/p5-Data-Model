@@ -5,7 +5,7 @@ use base 'Data::Model';
 use Data::Model::Schema;
 use Data::Model::Schema::Inflate;
 
-column_sugar 'part_of_utf8.name' => 'char' => { size => 100 };
+column_sugar 'part_of_utf8.name' => 'varchar' => { size => 100 };
 
 install_model all_utf8 => schema {
     driver $main::DRIVER;
@@ -30,7 +30,7 @@ install_model part_of_utf8 => schema {
     utf8_column 'part_of_utf8.name';
 
     column nickname
-        => char => { size => 100 };
+        => varchar => { size => 100 };
 };
 
 install_model utf8_key => schema {
@@ -38,9 +38,9 @@ install_model utf8_key => schema {
     key 'name';
 
     utf8_column name
-        => char => { size => 100 };
+        => varchar => { size => 100 };
     column nickname
-        => char => { size => 100 };
+        => varchar => { size => 100 };
 };
 
 {
@@ -59,7 +59,7 @@ install_model object_key => schema {
     index 'nickname';
 
     utf8_column name
-        => char => {
+        => varchar => {
             inflate => sub {
                 my $value = shift;
                 Name->new( name => $value );
@@ -70,7 +70,7 @@ install_model object_key => schema {
             },
         };
     utf8_column nickname
-        => char => {
+        => varchar => {
             inflate => sub {
                 my $value = shift;
                 Name->new( name => $value );
@@ -93,7 +93,7 @@ install_model uri => schema {
             auto_increment => 1,
         };
     column uri
-        => char => {
+        => varchar => {
             size    => 200,
             inflate => 'URI',
         };
@@ -118,7 +118,7 @@ install_model name_type => schema {
             auto_increment => 1,
         };
     column name
-        => char => {
+        => varchar => {
             size    => 200,
             inflate => 'NAME',
         };
